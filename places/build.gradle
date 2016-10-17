@@ -18,9 +18,22 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
+}
+
+tasks.withType(Test) {
+  testLogging {
+    exceptionFormat "full"
+    events "started", "skipped", "passed", "failed"
+    showStandardStreams true
+  }
 }
 
 dependencies {
   compile 'com.android.support:appcompat-v7:24.2.1'
+
   testCompile 'junit:junit:4.12'
+  testCompile 'org.assertj:assertj-core:1.7.1'
 }
