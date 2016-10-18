@@ -387,7 +387,7 @@ public class MapzenMap {
    * Find the geographic coordinates corresponding to the given position on screen.
    *
    * @param position Pixels from the top-left edge of the screen
-   * @return LngLat corresponding to the given point
+   * @return LatLng corresponding to the given point
    */
   public LngLat screenPositionToLngLat(PointF position) {
     return mapController.screenPositionToLngLat(position);
