@@ -4,14 +4,20 @@ import com.mapzen.android.lost.api.PendingResult;
 import com.mapzen.android.lost.api.ResultCallback;
 import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.Pelias;
+import com.mapzen.pelias.SimpleFeature;
+import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Result;
+import com.mapzen.pelias.widget.AutoCompleteItem;
 import com.mapzen.places.AutocompleteFilter;
+import com.mapzen.places.AutocompletePrediction;
 import com.mapzen.places.AutocompletePredictionBuffer;
 import com.mapzen.places.LatLng;
 import com.mapzen.places.LatLngBounds;
 
 import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import retrofit.Callback;
@@ -56,7 +62,16 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
     pelias.suggest(query, center.getLatitude(), center.getLongitude(), new Callback<Result>() {
       @Override public void success(Result result, Response response) {
         Status status = new Status(Status.SUCCESS);
-        AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, null);
+
+        final ArrayList<AutocompletePrediction> predictions = new ArrayList<>();
+        final List<Feature> features = result.getFeatures();
+        for (Feature feature : features) {
+          AutocompletePrediction prediction = new AutocompletePrediction(feature.properties.gid,
+              feature.properties.name);
+          predictions.add(prediction);
+        }
+
+        AutocompletePredictionBuffer buffer = new AutocompletePredictionBuffer(status, predictions);
         callback.onResult(buffer);
       }
 
