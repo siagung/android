@@ -4,10 +4,8 @@ import com.mapzen.android.lost.api.PendingResult;
 import com.mapzen.android.lost.api.ResultCallback;
 import com.mapzen.android.lost.api.Status;
 import com.mapzen.pelias.Pelias;
-import com.mapzen.pelias.SimpleFeature;
 import com.mapzen.pelias.gson.Feature;
 import com.mapzen.pelias.gson.Result;
-import com.mapzen.pelias.widget.AutoCompleteItem;
 import com.mapzen.places.AutocompleteFilter;
 import com.mapzen.places.AutocompletePrediction;
 import com.mapzen.places.AutocompletePredictionBuffer;
@@ -24,6 +22,10 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+/**
+ * Object returned by {@link GeoDataApiImpl#getAutocompletePredictions(
+ * com.mapzen.android.lost.api.LostApiClient, String, LatLngBounds, AutocompleteFilter)}.
+ */
 public class AutocompletePendingResult extends PendingResult<AutocompletePredictionBuffer> {
 
   private final Pelias pelias;
@@ -31,6 +33,14 @@ public class AutocompletePendingResult extends PendingResult<AutocompletePredict
   private final LatLngBounds bounds;
   private final AutocompleteFilter filter;
 
+  /**
+   * Constructs a new object given a pelias instance, a query, a lat/lng bounds, and an autocomplete
+   * filter.
+   * @param pelias
+   * @param query
+   * @param bounds
+   * @param filter
+   */
   public AutocompletePendingResult(Pelias pelias, String query, LatLngBounds bounds,
       AutocompleteFilter filter) {
     this.pelias = pelias;

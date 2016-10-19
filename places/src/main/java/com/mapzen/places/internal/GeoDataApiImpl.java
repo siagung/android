@@ -9,7 +9,7 @@ import com.mapzen.places.GeoDataApi;
 import com.mapzen.places.LatLngBounds;
 
 /**
- * {@link GeoDataApi} implementation for {@link com.mapzen.places.Places}
+ * {@link GeoDataApi} implementation for {@link com.mapzen.places.Places}.
  */
 public class GeoDataApiImpl implements GeoDataApi {
 
