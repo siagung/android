@@ -74,4 +74,6 @@
   <string name="pelias_search_demo_label">Search</string>
   <string name="pelias_search_demo_description">Demonstrates how to use Pelias</string>
   <string name="search_hint">Search</string>
+  <string name="geodata_demo_label">GeoDataApi</string>
+  <string name="geodata_demo_description">Places.GeoDataApi example usage</string>
 </resources>
