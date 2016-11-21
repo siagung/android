@@ -71,7 +71,7 @@ public class TestMapController extends MapController {
   }
 
   @Override public void pickFeature(float posX, float posY) {
-    featurePickListener.onFeaturePick(null, posX, posY);
+    featurePickListener.onFeaturePick(null, null, posX, posY);
   }
 
   private static Context getMockContext() {

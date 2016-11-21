@@ -10,6 +10,7 @@ import com.mapzen.tangram.LngLat;
 import com.mapzen.tangram.MapController;
 import com.mapzen.tangram.MapData;
 import com.mapzen.tangram.TouchInput;
+import com.mapzen.tangram.TouchLabel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,6 +36,7 @@ public class MapzenMap {
   private final MapController mapController;
   private final OverlayManager overlayManager;
   private final MapStateManager mapStateManager;
+  private final FeaturePickHandler featurePickHandler;
 
   boolean pickFeatureOnSingleTapConfirmed = false;
 
@@ -114,11 +116,12 @@ public class MapzenMap {
    * Creates a new map based on the given {@link MapView} and {@link MapController}.
    */
   MapzenMap(MapView mapView, MapController mapController, OverlayManager overlayManager,
-      MapStateManager mapStateManager) {
+      MapStateManager mapStateManager, FeaturePickHandler featurePickHandler) {
     this.mapView = mapView;
     this.mapController = mapController;
     this.overlayManager = overlayManager;
     this.mapStateManager = mapStateManager;
+    this.featurePickHandler = featurePickHandler;
     mapController.setPanResponder(internalPanResponder);
     overlayManager.restoreMapData();
     restoreMapState();
@@ -539,23 +542,19 @@ public class MapzenMap {
    * @param listener Listener to call
    */
   public void setFeaturePickListener(final FeaturePickListener listener) {
-    mapController.setFeaturePickListener(new MapController.FeaturePickListener() {
-      @Override public void onFeaturePick(final Map<String, String> properties,
-          final float positionX, final float positionY) {
-        postFeaturePickRunnable(properties, positionX, positionY, listener);
-      }
-    });
-    pickFeatureOnSingleTapConfirmed = (listener != null);
-    mapController.setTapResponder(internalTapResponder);
+    featurePickHandler.setFeaturePickListener(listener);
+    configureInternalFeatureListener(listener);
   }
 
-  private void postFeaturePickRunnable(final Map<String, String> properties, final float positionX,
-      final float positionY, final FeaturePickListener listener) {
-    mapView.post(new Runnable() {
-      @Override public void run() {
-        listener.onFeaturePick(properties, positionX, positionY);
-      }
-    });
+  public void setLabelPickListener(final LabelPickListener listener) {
+    featurePickHandler.setLabelPickListener(listener);
+    configureInternalFeatureListener(listener);
+  }
+
+  private void configureInternalFeatureListener(Object listener) {
+    mapController.setFeaturePickListener(featurePickHandler);
+    pickFeatureOnSingleTapConfirmed = (listener != null);
+    mapController.setTapResponder(internalTapResponder);
   }
 
   /**
