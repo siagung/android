@@ -24,5 +24,6 @@ deployment:
     branch: master
     commands:
       - ./gradlew uploadArchives -PsonatypeUsername=$SONATYPE_NEXUS_SNAPSHOTS_USERNAME -PsonatypePassword=$SONATYPE_NEXUS_SNAPSHOTS_PASSWORD
-      - scripts/deploy-sample-app.sh
+      - scripts/deploy-android-sdk-sample-app.sh
+      - scripts/deploy-places-api-sample-app.sh
       - ./gradlew aarSize countReleaseDexMethods permissions mapzen-android-sdk:dependencies --configuration compile
